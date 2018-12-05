@@ -18,7 +18,8 @@ queue3.tapPromise( '2', function ( name ) {
   return new Promise( function ( resolve,reject ) {
     setTimeout( function () {
       console.log( name, 2 );
-      reject('tapPromise reject');
+      // reject('tapPromise2 reject');
+      throw 'tapPromise2 reject'
     }, 2000 )
   } );
 } );
