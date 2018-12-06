@@ -109,11 +109,24 @@ class Hook {
 		return this.taps.length > 0 || this.interceptors.length > 0;
 	}
 
-	intercept(interceptor) {
+	/**
+   * interceptor类似于切面，在钩子的register和call阶段分别会触发interceptor.register和call钩子
+   *
+   * @author liubin.frontend
+   * @param {{
+   *  call: (...params)=>void,
+   *  register:(tap)=>Tap,
+   *  loop: (...args) => void,
+   *  tap: (tap: Tap) => void
+   * }} interceptor
+   * @memberof Hook
+   */
+  intercept(interceptor) {
 		this._resetCompilation();
 		this.interceptors.push(Object.assign({}, interceptor));
 		if (interceptor.register) {
 			for (let i = 0; i < this.taps.length; i++) {
+        // 调用interceptor.register钩子
 				this.taps[i] = interceptor.register(this.taps[i]);
 			}
 		}
@@ -138,6 +151,7 @@ class Hook {
 			stage = item.stage;
 		}
 		let i = this.taps.length;
+    // 插入排序
 		while (i > 0) {
 			i--;
 			const x = this.taps[i];

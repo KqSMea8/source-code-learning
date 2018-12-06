@@ -1,4 +1,4 @@
-const { AsyncParallelBailHook } = require("tapable");
+const { AsyncParallelBailHook } = require("../lib");
 
 let queue1 = new AsyncParallelBailHook(["name"]);
 console.time("cost");

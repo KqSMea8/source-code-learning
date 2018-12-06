@@ -1,4 +1,4 @@
-const { AsyncParallelHook } = require("tapable");
+const { AsyncParallelHook } = require("../lib");
 
 let queue3 = new AsyncParallelHook(["name"]);
 console.time("cost3");

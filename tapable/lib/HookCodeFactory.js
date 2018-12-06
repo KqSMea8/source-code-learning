@@ -20,6 +20,7 @@ class HookCodeFactory {
 					this.args(),
 					'"use strict";\n' +
 						this.header() +
+            // content随不同钩子的不同调用方式不同，构造生成函数的主体部分
 						this.content({
 							onError: err => `throw ${err};\n`,
 							onResult: result => `return ${result};\n`,
@@ -87,6 +88,7 @@ class HookCodeFactory {
 		this._args = undefined;
 	}
 
+  // 构造生成函数的一些初始化语句
 	header() {
 		let code = "";
 		if (this.needContext()) {
@@ -111,6 +113,7 @@ class HookCodeFactory {
 	}
 
 	needContext() {
+    // taps：tapInfo[]， tapInfo是Hook.tapXXX时构造的，包含name、type、fn3个参数
 		for (const tap of this.options.taps) if (tap.context) return true;
 		return false;
 	}
@@ -359,6 +362,7 @@ class HookCodeFactory {
 		return code;
 	}
 
+  // 构造生成函数的参数
 	args({ before, after } = {}) {
 		let allArgs = this._args;
 		if (before) allArgs = [before].concat(allArgs);
