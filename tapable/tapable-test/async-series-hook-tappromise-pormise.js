@@ -18,8 +18,9 @@ queue3.tapPromise( '2', function ( name ) {
   return new Promise( function ( resolve,reject ) {
     setTimeout( function () {
       console.log( name, 2 );
-      // reject('tapPromise2 reject');
-      throw 'tapPromise2 reject'
+      // FIXME: reject会直接导致程序退出抛异常，而没有被catch。 没有找到原因
+      reject('tapPromise2 reject');
+      // throw 'tapPromise2 reject'
     }, 2000 )
   } );
 } );
@@ -43,4 +44,75 @@ webapck 2
 webapck 3
 undefined
 cost3: 6021.817ms
+*/
+
+/**
+ * function anonymous(name) {
+  'use strict';
+  return new Promise((_resolve, _reject) => {
+    var _sync = true;
+    var _context;
+    var _x = this._x;
+    var _fn0 = _x[0];
+    var _hasResult0 = false;
+    var _promise0 = _fn0(name);
+    if (!_promise0 || !_promise0.then) throw new Error('Tap function (tapPromise) did not return promise (returned ' + _promise0 + ')');
+    _promise0.then(
+      _result0 => {
+        _hasResult0 = true;
+        var _fn1 = _x[1];
+        var _hasResult1 = false;
+        var _promise1 = _fn1(name);
+        if (!_promise1 || !_promise1.then) throw new Error('Tap function (tapPromise) did not return promise (returned ' + _promise1 + ')');
+        _promise1.then(
+          _result1 => {
+            _hasResult1 = true;
+            var _fn2 = _x[2];
+            var _hasResult2 = false;
+            var _promise2 = _fn2(name);
+            if (!_promise2 || !_promise2.then) throw new Error('Tap function (tapPromise) did not return promise (returned ' + _promise2 + ')');
+            _promise2.then(
+              _result2 => {
+                _hasResult2 = true;
+                _resolve();
+              },
+              _err2 => {
+                if (_hasResult2) throw _err2;
+                if (_sync)
+                  _resolve(
+                    Promise.resolve().then(() => {
+                      throw _err2;
+                    }),
+                  );
+                else _reject(_err2);
+              },
+            );
+          },
+          _err1 => {
+            if (_hasResult1) throw _err1;
+            if (_sync)
+              _resolve(
+                Promise.resolve().then(() => {
+                  throw _err1;
+                }),
+              );
+            else _reject(_err1);
+          },
+        );
+      },
+      _err0 => {
+        if (_hasResult0) throw _err0;
+        if (_sync)
+          _resolve(
+            Promise.resolve().then(() => {
+              throw _err0;
+            }),
+          );
+        else _reject(_err0);
+      },
+    );
+    _sync = false;
+  });
+}
+
 */
