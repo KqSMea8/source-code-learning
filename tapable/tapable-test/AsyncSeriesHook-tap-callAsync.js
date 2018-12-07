@@ -2,7 +2,7 @@ const { AsyncSeriesHook } = require( "../lib" );
 
 let queue1 = new AsyncSeriesHook( [ 'name' ] );
 console.time( 'cost1' );
-// 不关心每个tap回调参数的返回值，除非抛出异常会直接调用callAsync的回调
+// 不关心每个tap回调参数的返回值，除非抛出异常会直接调用callAsync的回调,此时后续tap回调均不会执行
 queue1.tap( '1', function ( name ) {
   console.log( 1 );
   return "Wrong";

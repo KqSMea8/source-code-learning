@@ -4,7 +4,8 @@ const {
 
 let queue2 = new AsyncSeriesWaterfallHook( [ 'name' ] );
 console.time( 'cost2' );
-// 上一个监听函数callback的第二个调用参数, 可以作为下一个监听函数的data参数。 如果callback的第一个参数不为空，直接执行callAsync的回调。
+// 上一个监听函数callback的第二个调用参数, 可以作为下一个监听函数的data参数。
+// 如果callback的第一个参数不为空，会被当做error参数，直接执行callAsync的回调并传入error，后续tapAsync不会执行
 queue2.tapAsync( '1', function ( name, callback ) {
   setTimeout( function () {
     console.log( '1: ', name );
@@ -14,7 +15,7 @@ queue2.tapAsync( '1', function ( name, callback ) {
 queue2.tapAsync( '2', function ( data, callback ) {
   setTimeout( function () {
     console.log( '2: ', data );
-    callback( null, 'tapAsync2' );
+    callback( 'tapAsync2 error');
   }, 2000 )
 } );
 queue2.tapAsync( '3', function ( data, callback ) {
@@ -23,19 +24,18 @@ queue2.tapAsync( '3', function ( data, callback ) {
     callback( null, 'tapAsync3' );
   }, 3000 )
 } );
-queue2.callAsync( 'webpack', err => {
-  console.log( err );
+queue2.callAsync( 'webpack', (err,result) => {
+  console.log( "err: ", err, 'result: ', result );
   console.log( 'over' );
   console.timeEnd( 'cost2' );
 } );
-// 执行结果：
+
 /*
 1:  webpack
-2:  2
-3:  3
-null
+2:  tapAsync1
+err:  tapAsync2 error result:  undefined
 over
-cost2: 6016.889ms
+cost2: 3016.889ms
 */
 
 function anonymous(name, _callback) {

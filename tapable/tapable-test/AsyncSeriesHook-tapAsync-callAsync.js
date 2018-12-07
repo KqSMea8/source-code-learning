@@ -3,25 +3,26 @@ const { AsyncSeriesHook } = require( "../lib" );
 let queue2 = new AsyncSeriesHook( [ 'name' ] );
 console.time( 'cost2' );
 /**
- * 只有执行了前一个tapAsync回调里的cb后，才会执行后一个tapAsync的回调。
- * 如果执行cb时传入了非空值，会被当做时error，此时会跳过后续的tapAsync回调，直接执行callAsync的回调
+ * 只有执行了前一个tapAsync回调里的callback后，才会执行后一个tapAsync的回调。
+ * 如果执行callback时传入了非空值，会被当做时error，
+ * 此时会跳过后续的tapAsync回调，直接执行callAsync的回调,并传入error
 */
-queue2.tapAsync( '1', function ( name, cb ) {
+queue2.tapAsync( '1', function ( name, callback ) {
   setTimeout( () => {
     console.log( name, 1 );
-    cb();
+    callback();
   }, 1000 );
 } );
-queue2.tapAsync( '2', function ( name, cb ) {
+queue2.tapAsync( '2', function ( name, callback ) {
   setTimeout( () => {
     console.log( name, 2 );
-    cb('tapAsync2 error');
+    callback('tapAsync2 error');
   }, 2000 );
 } );
-queue2.tapAsync( '3', function ( name, cb ) {
+queue2.tapAsync( '3', function ( name, callback ) {
   setTimeout( () => {
     console.log( name, 3 );
-    cb();
+    callback();
   }, 3000 );
 } );
 
@@ -34,10 +35,9 @@ queue2.callAsync( 'webpack', ( err ) => {
 /*
 webpack 1
 webpack 2
-webpack 3
-undefined
+tapAsync2 error
 over
-cost2: 6019.621ms
+cost2: 3019.621ms
 */
 
 function anonymous(name, _callback) {

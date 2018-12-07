@@ -12,7 +12,7 @@ queue3.tapPromise( '1', function ( name ) {
     }, 1000 )
   } );
 } );
-queue3.tapPromise( '2', function ( name, callback ) {
+queue3.tapPromise( '2', function ( name ) {
   return new Promise( function ( resolve, reject ) {
     setTimeout( function () {
       console.log( name, 2 );
@@ -20,7 +20,7 @@ queue3.tapPromise( '2', function ( name, callback ) {
     }, 2000 )
   } );
 } );
-queue3.tapPromise( '3', function ( name, callback ) {
+queue3.tapPromise( '3', function ( name ) {
   return new Promise( function ( resolve ) {
     setTimeout( function () {
       console.log( name, 3 );

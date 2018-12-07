@@ -5,7 +5,7 @@ const {
 // tap
 let queue1 = new AsyncSeriesWaterfallHook( [ 'name' ] );
 console.time( 'cost1' );
-// 上一个监听函数的返回值, 可以作为下一个监听函数的参数。 如果监听函数报错，直接执行callAsync的回调
+// 上一个监听函数的返回值, 可以作为下一个监听函数的参数。 如果监听函数报错，直接执行callAsync的回调,后续tap回调不会被执行
 queue1.tap( '1', function ( name ) {
   console.log( name, 1 );
   return 'lily'

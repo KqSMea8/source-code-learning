@@ -3,25 +3,27 @@ const {
 } = require( "../lib" );
 let queue3 = new AsyncSeriesWaterfallHook( [ 'name' ] );
 console.time( 'cost3' );
-// 上一个监听函数Promise的resolve结果, 可以作为下一个监听函数的data参数。 如果调用了reject，直接执行Hook.promise的catch回调。
+// 上一个监听函数Promise的resolve结果, 可以作为下一个监听函数的data参数。
+// 如果调用了reject，直接执行Hook.promise的catch回调，并传入reject参数，后续tapPromsie回调不会再执行
 queue3.tapPromise( '1', function ( name ) {
   return new Promise( function ( resolve, reject ) {
     setTimeout( function () {
       console.log( '1:', name );
-      // resolve( '1' );
-      reject( 'tapPromise1 error' ) // 后续的tapPromise回调不会执行，直接执行Hook.promise的catch回调。
+      resolve( 'tapPromise1' );
+      // reject( 'tapPromise1 error' ) // 后续的tapPromise回调不会执行，直接执行Hook.promise的catch回调。
     }, 1000 )
   } );
 } );
-queue3.tapPromise( '2', function ( data, callback ) {
-  return new Promise( function ( resolve ) {
+queue3.tapPromise( '2', function ( data ) {
+  return new Promise( function ( resolve,reject ) {
     setTimeout( function () {
       console.log( '2:', data );
-      resolve( '2' );
+      // resolve( '2' );
+      reject('tapPromise2 error');
     }, 2000 )
   } );
 } );
-queue3.tapPromise( '3', function ( data, callback ) {
+queue3.tapPromise( '3', function ( data ) {
   return new Promise( function ( resolve ) {
     setTimeout( function () {
       console.log( '3:', data );
@@ -36,13 +38,12 @@ queue3.promise( 'webpack' ).then( result => {
   console.log( "err: ", err );
   console.timeEnd( 'cost3' );
 } );
-// 执行结果：
+
 /*
 1: webpack
-2: 1
-3: 2
-over
-cost3: 6016.703ms
+2: tapPromise1
+err:  tapPromise2 error
+cost3: 3019.126ms
 */
 
 function anonymous(name) {
