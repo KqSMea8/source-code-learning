@@ -2,6 +2,7 @@ const { SyncBailHook } = require("../lib");
 
 let queue = new SyncBailHook(["name"]);
 
+// 上一个回调函数的返回值如果不为空，后面的回调就再也不会执行，相当于被截断
 queue.tap("1", function(name) {
 	console.log(name, 1);
 });
@@ -15,8 +16,7 @@ queue.tap("3", function(name) {
 
 queue.call("webpack");
 
-/**
- * function anonymous(name) {
+function anonymous(name) {
   'use strict';
   var _context;
   var _x = this._x;
@@ -39,5 +39,3 @@ queue.call("webpack");
     }
   }
 }
-
-*/

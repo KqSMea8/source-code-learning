@@ -40,8 +40,7 @@ over
 cost2: 6019.621ms
 */
 
-/**
- * function anonymous(name, _callback) {
+function anonymous(name, _callback) {
   'use strict';
   var _context;
   var _x = this._x;
@@ -68,5 +67,3 @@ cost2: 6019.621ms
     }
   });
 }
-
-*/

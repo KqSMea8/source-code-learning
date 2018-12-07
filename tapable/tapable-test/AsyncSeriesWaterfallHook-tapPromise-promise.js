@@ -45,8 +45,7 @@ over
 cost3: 6016.703ms
 */
 
-/**
- * function anonymous(name) {
+function anonymous(name) {
   'use strict';
   return new Promise((_resolve, _reject) => {
     var _sync = true;
@@ -122,5 +121,3 @@ cost3: 6016.703ms
     _sync = false;
   });
 }
-
-*/

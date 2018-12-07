@@ -3,22 +3,35 @@ const { AsyncParallelBailHook } = require( "../lib" );
 // 如果某个cb在调用时传入了非undefined的值或error，会提早调用callAsync的回调，而不会等到后续的cb执行
 let queue2 = new AsyncParallelBailHook( [ 'name' ] );
 console.time( 'cost1' );
-queue2.tapAsync( '1', function ( name, cb ) {
+
+
+/**
+ * 类似AsyncParallelHook-tapAsync-callAsync
+ *
+ * 1. 若callback被同步执行：只要前一个回调函数的callback在调用时不传error/result参数，在执行完后就会顺序执行后一个回调。
+ *    若callback在调用时传了非空error/result参数，会直接执行callAsync的回调，并将非空error/result参数当做入参。
+ * 2. 若callback被异步执行：上述情况会改变，若调用callback时传了error/result参数，在执行完后就会执行callAsync的回调，
+ *    只不过后续的回调因为是异步的，所以依然有机会执行，只不过callAsync的回调只会执行一次
+*/
+
+queue2.tapAsync( '1', function ( name, callback ) {
   setTimeout( () => {
     console.log( name, 1 );
-    cb();
+    callback();
   }, 1000 );
 } );
-queue2.tapAsync( '2', function ( name, cb ) {
-  setTimeout( () => {
+queue2.tapAsync( '2', function ( name, callback ) {
+  // setTimeout( () => {
     console.log( name, 2 );
-    cb(undefined, 123);
-  }, 2000 );
+    // 如果此处的callback是在异步环境中被调用如被注释的setTimeout，那么tapAsync3依然有机会被调用；
+    // 如果是在同步环境中被调用，tapAsync3不会被调用
+    callback( undefined, 123 );
+  // })
 } );
-queue2.tapAsync( '3', function ( name, cb ) {
+queue2.tapAsync( '3', function ( name, callback ) {
   setTimeout( () => {
     console.log( name, 3 );
-    cb();
+    callback();
   }, 3000 );
 } );
 
@@ -28,15 +41,14 @@ queue2.callAsync( 'webpack', (err,result) => {
   console.timeEnd( 'cost1' );
 } );
 
-// 执行结果:
-/*
-webpack 1
-webpack 2
-webpack 3
+/**
+ * webpack 2
+ * webpack 1
+ * over error:  null result:  123
+ * cost1: 1012.450ms
 */
 
-/**
- * function anonymous(name, _callback) {
+function anonymous(name, _callback) {
   'use strict';
   var _context;
   var _x = this._x;
@@ -138,4 +150,3 @@ webpack 3
     }
   } while (false);
 }
-*/

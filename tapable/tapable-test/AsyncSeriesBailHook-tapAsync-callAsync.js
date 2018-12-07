@@ -4,7 +4,10 @@ let queue2 = new AsyncSeriesBailHook( [ 'name' ] );
 console.time( 'cost2' );
 /**
  * callback: (err, result) => any
- * callback的err或result参数不为null，就会直接执行callAsync绑定的回调函数，会将callback的参数携带过去
+ * 注意和AsyncParallelBailHook-tapAsync-callAsync的对比：
+ * 1. AsyncSeriesBailHook是异步串行，callback的err或result参数不为null，不管是同步还是异步环境中执行的，
+ *    都会直接执行callAsync绑定的回调函数，会将callback的参数携带过去，后续的tapAsync不会被执行。
+ * 2. AsyncParallelBailHook是异步并行，如果callbacks是在异步环境中被调用如被注释的setTimeout，那么后续的tapAsync回调依然有机会被调用
 */
 queue2.tapAsync( '1', function ( name, callback ) {
   setTimeout( function () {
@@ -30,18 +33,16 @@ queue2.callAsync( 'webpack', (err,result) => {
   console.log( 'over' );
   console.timeEnd( 'cost2' );
 } );
-// 执行结果
 
 /*
 webpack 1
 webpack 2
-wrong
+err:  null result:  tapAsync2 result
 over
 cost2: 3014.616ms
 */
 
-/**
- * function anonymous(name, _callback) {
+function anonymous(name, _callback) {
   'use strict';
   var _context;
   var _x = this._x;
@@ -80,5 +81,3 @@ cost2: 3014.616ms
     }
   });
 }
-
-*/

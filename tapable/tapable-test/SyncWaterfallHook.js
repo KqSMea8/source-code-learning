@@ -2,7 +2,7 @@ const { SyncWaterfallHook } = require("../lib");
 
 let queue = new SyncWaterfallHook(["name"]);
 
-// 上一个函数的返回值可以传给下一个函数
+// 上一个回调函数的返回值如果不为空，就会传给下一个回调函数当做参数
 queue.tap("1", function(name) {
 	console.log(name, 1);
 	// return 1;
@@ -17,8 +17,7 @@ queue.tap("3", function(data) {
 
 queue.call("webpack");
 
-/**
- * function anonymous(name) {
+function anonymous(name) {
   'use strict';
   var _context;
   var _x = this._x;
@@ -39,5 +38,3 @@ queue.call("webpack");
   }
   return name;
 }
-
-*/

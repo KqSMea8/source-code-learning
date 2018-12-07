@@ -1,6 +1,8 @@
 var { SyncHook } = require("../lib");
 let queue = new SyncHook(["name"]); //所有的构造函数都接收一个可选的参数，这个参数是一个字符串的数组。
 
+// 各个钩子回调顺序执行，回调之间没有关联
+
 // 订阅
 queue.tap( "1", function( name) {
 	// tap 的第一个参数是用来标识订阅的函数的
@@ -38,7 +40,6 @@ webpack 1
 webpack 2
 */
 
-/**
 function anonymous ( name) {
   "use strict";
   var _context;
@@ -55,5 +56,3 @@ function anonymous ( name) {
   var _fn1 = _x[ 1 ];
   _fn1( name );
 }
-
-*/

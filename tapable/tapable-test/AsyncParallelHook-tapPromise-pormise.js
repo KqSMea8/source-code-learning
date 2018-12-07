@@ -2,7 +2,12 @@ const { AsyncParallelHook } = require("../lib");
 
 let queue3 = new AsyncParallelHook(["name"]);
 console.time("cost3");
-queue3.tapPromise("1", function(name, cb) {
+
+/**
+ * 若回调的promise被resolve，在执行完后就会顺序执行后一个回调，若reject了就会只会跳到Hook.promise的catch回调。
+ * 只不过因为promise是异步的，所以后续的promise依然有机会执行，只不过Hook.promise的then/catch只会执行一次
+*/
+queue3.tapPromise("1", function(name) {
 	return new Promise(function(resolve, reject) {
 		setTimeout(() => {
 			console.log(name, 1);
@@ -11,16 +16,18 @@ queue3.tapPromise("1", function(name, cb) {
 	});
 });
 
-queue3.tapPromise("1", function(name, cb) {
+queue3.tapPromise("2", function(name) {
 	return new Promise(function(resolve, reject) {
 		setTimeout(() => {
 			console.log(name, 2);
-			resolve();
+			// resolve();
+      // 会导致接下来直接执行Hook.promise的catch，不过tapPromise3的回调promise依然会被执行
+      reject( 'tapPromise2 error' )
 		}, 2000);
 	});
 });
 
-queue3.tapPromise("1", function(name, cb) {
+queue3.tapPromise("3", function(name) {
 	return new Promise(function(resolve, reject) {
 		setTimeout(() => {
 			console.log(name, 3);
@@ -34,14 +41,20 @@ queue3.promise("webpack").then(
 		console.log("over");
 		console.timeEnd("cost3");
 	},
-	() => {
-		console.log("error");
+	(err) => {
+		console.log("error: ", err);
 		console.timeEnd("cost3");
 	}
 );
-
 /**
- * "function anonymous(name) {
+ * webpack 1
+ * webpack 2
+ * error:  tapPromise2 error
+ * cost3: 2011.6462669968605ms
+ * webpack 3 // 注意tapPromise3的回调promise依然有机会执行，只不过是在Hook.promise之后
+*/
+
+function anonymous(name) {
   "use strict";
   return new Promise( ( _resolve, _reject ) => {
     var _sync = true;
@@ -117,14 +130,4 @@ queue3.promise("webpack").then(
     _sync = false;
   } );
 
-} "
- *
-*/
-
-/*
-webpack 1
-webpack 2
-webpack 3
-over
-cost3: 3007.925ms
-*/
+}

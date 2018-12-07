@@ -2,6 +2,9 @@ const { AsyncParallelBailHook } = require("../lib");
 
 let queue1 = new AsyncParallelBailHook(["name"]);
 console.time("cost");
+/**
+ * 只要前一个回调的返回值不为空或者抛异常，就会直接执行callAsync的回调，后续的tap回调不会被执行
+*/
 queue1.tap("1", function(name) {
 	console.log(name, 1);
 	return 1;
@@ -17,8 +20,8 @@ queue1.callAsync("webpack", err => {
 	console.timeEnd("cost");
 });
 
-/**
-function anonymous(name, _callback) {
+
+function anonymous ( name, _callback ) {
   "use strict";
   var _context;
   var _x = this._x;
@@ -161,11 +164,3 @@ function anonymous(name, _callback) {
   } while ( false );
 
 }
-*/
-
-// 执行结果:
-/*
-webpack 1
-webpack 2
-cost: 4.975ms
- */

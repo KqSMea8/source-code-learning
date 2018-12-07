@@ -6,28 +6,28 @@ console.time( 'cost1' );
 // callback()的返回值不为null，或者回调抛出异常，就会直接执行callAsync绑定的回调函数
 queue1.tap( '1', function ( name ) {
   console.log( 1 );
-  return "Wrong";
 } );
 queue1.tap( '2', function ( name ) {
   console.log( 2 );
+  // return "tap2 result";
+  throw 'tap2 error';
 } );
 queue1.tap( '3', function ( name ) {
   console.log( 3 );
 } );
 queue1.callAsync( 'webpack', err => {
-  console.log( err );
+  console.error( 'err: ',err );
   console.timeEnd( 'cost1' );
 } );
 
-// 执行结果:
 /*
 1
-null
+2
+err:  tap2 error
 cost1: 3.979ms
 */
 
-/**
- * function anonymous(name, _callback) {
+function anonymous(name, _callback) {
   'use strict';
   var _context;
   var _x = this._x;
@@ -75,5 +75,3 @@ cost1: 3.979ms
     }
   }
 }
-
-*/

@@ -1,7 +1,7 @@
 const { SyncLoopHook } = require("../lib");
 
 let queue = new SyncLoopHook(["name"]);
-
+// 只要某个监听的回调返回值不为空就会一直循环执行这个回调，直到返回空才会执行下一个回调
 let count = 3;
 queue.tap("1", function(name) {
 	console.log("count: ", count--);
@@ -21,8 +21,7 @@ queue.tap("2", function(name) {
 
 queue.call("webpack");
 
-/**
- * function anonymous(name) {
+function anonymous(name) {
   'use strict';
   var _context;
   var _x = this._x;
@@ -45,5 +44,3 @@ queue.call("webpack");
     }
   } while (_loop);
 }
-
-*/

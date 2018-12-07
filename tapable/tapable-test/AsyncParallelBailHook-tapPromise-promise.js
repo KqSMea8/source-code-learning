@@ -4,11 +4,12 @@ let queue3 = new AsyncParallelBailHook( [ 'name' ] );
 console.time( 'cost3' );
 // 如果某个tapPromsie的回调Promise resolve或reject的参数不为空，
 // 会直接导致Hook.promise得到resolve或reject，而不会等后面的tapPromise回调得到resolve或reject
+// 只不过因为promise是异步的，所以后续的promise依然有机会执行，只不过Hook.promise的then / catch只会执行一次
 queue3.tapPromise( '1', function ( name ) {
   return new Promise( function ( resolve, reject ) {
     setTimeout( () => {
       console.log( name, 1 );
-      resolve( '123' );// resolve或reject的参数非undefined时，会直接resolve或reject最后的queue3.promise
+      resolve( );
     }, 1000 );
   } );
 } );
@@ -17,7 +18,7 @@ queue3.tapPromise( '2', function ( name ) {
   return new Promise( function ( resolve, reject ) {
     setTimeout( () => {
       console.log( name, 2 );
-      reject( 'wrong' );
+      reject( 'tapPromise2 wrong' ); // resolve或reject的参数非undefined时，会直接resolve或reject最后的queue3.promise
     }, 2000 );
   } );
 } );
@@ -37,21 +38,19 @@ queue3.promise( 'webpack' )
     console.log( 'over', 'result: ',result );
     console.timeEnd( 'cost3' );
   }, (err) => {
-    console.log( 'error: ',err );
+    console.error( 'error: ',err );
     console.timeEnd( 'cost3' );
   } );
 
-// 执行结果:
-/*
-webpack 1
-webpack 2
-error
-cost3: 2009.970ms
-webpack 3
+/**
+ * webpack 1
+ * webpack 2
+ * error:  tapPromise2 wrong
+ * cost3: 2014.422ms
+ * webpack 3 // 注意tapPromise3的回调promise依然有机会执行，只不过是在Hook.promise之后
 */
 
-/**
- * function anonymous(name) {
+function anonymous(name) {
   'use strict';
   return new Promise((_resolve, _reject) => {
     var _sync = true;
@@ -177,5 +176,3 @@ webpack 3
     _sync = false;
   });
 }
-
-*/
