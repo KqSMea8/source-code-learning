@@ -7,16 +7,17 @@ console.time("cost");
 */
 queue1.tap("1", function(name) {
 	console.log(name, 1);
-	return 1;
+	// return 1;
 });
 queue1.tap("2", function(name) {
 	console.log(name, 2);
-	return "wrong";
+	return "tap2 result";
 });
 queue1.tap("3", function(name) {
 	console.log(name, 3);
 });
-queue1.callAsync("webpack", err => {
+queue1.callAsync("webpack", (err,result) => {
+  console.log('err: ',err, 'result: ',result);
 	console.timeEnd("cost");
 });
 
