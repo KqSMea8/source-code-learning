@@ -18,7 +18,6 @@ queue1.callAsync("webpack", err => {
 	console.timeEnd("cost");
 });
 
-// 执行结果
 /*
 webpack 1
 webpack 2
