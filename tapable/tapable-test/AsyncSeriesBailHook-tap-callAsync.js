@@ -3,7 +3,7 @@ const { AsyncSeriesBailHook } = require( "../lib" );
 // tap
 let queue1 = new AsyncSeriesBailHook( [ 'name' ] );
 console.time( 'cost1' );
-// callback()的返回值不为null，或者回调抛出异常，就会直接执行callAsync绑定的回调函数
+// 回调的返回值不为空，或者回调抛出异常，就会直接执行callAsync绑定的回调函数
 queue1.tap( '1', function ( name ) {
   console.log( 1 );
 } );

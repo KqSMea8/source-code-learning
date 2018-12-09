@@ -67,7 +67,7 @@ class HookCodeFactory {
 				break;
 		}
 		this.deinit();
-    console.log(fn.toString());
+    // console.log(fn.toString());
 		return fn;
 	}
 
