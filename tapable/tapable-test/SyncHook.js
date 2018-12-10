@@ -3,23 +3,23 @@ let queue = new SyncHook(["name"]); //所有的构造函数都接收一个可选
 
 // 各个钩子回调顺序执行，回调之间没有关联
 
-queue.tap( "1", function( name) {
+queue.tap( "tap1", function( name) {
 	// tap 的第一个参数是用来标识订阅的函数的
   console.log(name, 1);
 	return "1";
 });
 
-queue.tap("2", function(name) {
+queue.tap("tap2", function(name) {
 	console.log(name, 2);
 });
 
 queue.intercept( {
   // tapInfo是Hook.tapXXX时构造的，包含name、type、fn3个参数
   tap: ( tapInfo ) => {
-    console.log( `tapInfo：`, tapInfo );
+    console.log( `${tapInfo.name} taped` );
   },
   call: ( name ) => {
-    console.log( `intercept call, ${name}` );
+    console.log( `intercept called, ${name}` );
   },
   register: ( tapInfo ) => {
     console.log( `intercept register ${ tapInfo.name}` );
