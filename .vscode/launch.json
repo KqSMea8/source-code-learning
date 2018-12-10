@@ -9,6 +9,12 @@
       "request": "launch",
       "name": "file",
       "program": "${file}"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "webpack",
+      "program": "${workspaceFolder}/webpack-test/test.js"
     }
   ]
 }
