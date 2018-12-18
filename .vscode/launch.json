@@ -14,7 +14,7 @@
       "type": "node",
       "request": "launch",
       "name": "webpack",
-      "program": "${workspaceFolder}/webpack-test/test.js"
+      "program": "${workspaceFolder}/webpack-sourcecode/test.js"
     }
   ]
 }
