@@ -7,14 +7,14 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "file",
-      "program": "${file}"
+      "name": "webpack",
+      "program": "${workspaceFolder}/webpack-sourcecode/test.js"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "webpack",
-      "program": "${workspaceFolder}/webpack-sourcecode/test.js"
+      "name": "file",
+      "program": "${file}"
     }
   ]
 }
