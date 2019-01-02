@@ -85,7 +85,7 @@ module.exports = {
     },
     usedExports: true,
   },
-  // mode: 'development',
-  mode: 'production',
+  mode: 'development',
+  // mode: 'production',
   devtool: 'cheap-source-map',
 };
