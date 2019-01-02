@@ -1,5 +1,4 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 function p1() {}
 p1.prototype.apply = compiler => {
@@ -17,12 +16,17 @@ p2.prototype.apply = compiler => {
 };
 
 module.exports = {
-  entry: './webpack-sourcecode/index.js',
+  // entry: './webpack-sourcecode/index.js',
+  entry: {
+    main: './webpack-sourcecode/index.js',
+    runtime: './webpack-sourcecode/runtime.js',
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[chunkhash].js',
+    // chunkFilename: '[name].[chunkhash].js',
   },
-  plugins: [new p1(), new p2(), new CleanWebpackPlugin(path.resolve(__dirname, 'webpack-sourcecode/dist'))],
+  plugins: [new p1(), new p2()],
   module: {
     rules: [
       {
@@ -52,11 +56,36 @@ module.exports = {
       },
     ],
   },
-  resolveLoader: {
-    alias: {
-      'babel-loader': path.resolve(__dirname, './my-babel-loader.js'),
+  // resolveLoader: {
+  //   alias: {
+  //     'babel-loader': path.resolve(__dirname, './my-babel-loader.js'),
+  //   },
+  // },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      minSize: 0,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
     },
+    usedExports: true,
   },
-  mode: 'development',
+  // mode: 'development',
+  mode: 'production',
   devtool: 'cheap-source-map',
 };
