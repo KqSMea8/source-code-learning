@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "attach",
+            "preLaunchTask": "preAttach",
+            "name": "attach to brick",
+            "address": "localhost",
+            "port": 2507,
+            "localRoot": "/Users/harx/gitlab/mario_js_collector_v2/demo/qqGame",
+            "remoteRoot": "/sdcard/tencent/MobileQQ/Test"
+        }
+    ]
+}

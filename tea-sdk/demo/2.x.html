@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script>
+    (function (export_obj) {
+      if (!window['TeaAnalyticsObject']) {
+        window['TeaAnalyticsObject'] = export_obj || 'collect';
+      }
+      if (!window[window['TeaAnalyticsObject']]) {
+        function _collect() {
+          _collect.q.push(arguments);
+          return _collect;
+        }
+
+        _collect.q = _collect.q || [];
+        _collect.l = +new Date();
+        window[window['TeaAnalyticsObject']] = _collect;
+      }
+    })('collectTest');
+  </script>
+  <script src="https://s3.pstatp.com/pgc/tech/collect/seed.js"></script>
+  <script src="//s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    function getCookie(c_name) {
+      var c_value = document.cookie;
+      var c_start = c_value.indexOf(" " + c_name + "=");
+      if (c_start == -1) {
+        c_start = c_value.indexOf(c_name + "=");
+      }
+      if (c_start == -1) {
+        c_value = null;
+      } else {
+        c_start = c_value.indexOf("=", c_start) + 1;
+        var c_end = c_value.indexOf(";", c_start);
+        if (c_end == -1) {
+          c_end = c_value.length;
+        }
+        c_value = unescape(c_value.substring(c_start, c_end));
+      }
+      return c_value;
+    }
+
+    window.collectTest('setAppId', 123111111);
+    window.collectTest('setIntranetMode', false, 'cn');
+
+    window.collectTest('setUser', {
+      // user_unique_id: getCookie('tt_webid') || undefined
+    });
+    
+    window.collectTest('setDebug', true);
+    window.collectTest('setLog', true);
+    window.collectTest("testEvent", {
+      a: 1
+    })
+  </script>
+</body>
+
+</html>

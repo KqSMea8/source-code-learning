@@ -1,0 +1,30 @@
+<script>
+  /**
+   * 应用级别的配置，供所有页面公用
+   */
+  import util from './util'
+  import tea from './utils/tea-sdk-quickApp.min.js'
+
+  export default {
+    showMenu: util.showMenu,
+    createShortcut: util.createShortcut,
+    collectEvent: tea.event, // 挂载到全局对象
+    onCreate() {
+      tea.init(1231);
+      tea.config({
+        log: true,
+        evtParams: {
+          wori: 'haha'
+        }
+      });
+      setTimeout(() => {
+        tea.config({
+          user_unique_id: 1231
+        });
+        tea.send();
+        console.log(tea.getConfig());
+      }, 1000);
+      tea.event('eventaa')
+    }
+  }
+</script>

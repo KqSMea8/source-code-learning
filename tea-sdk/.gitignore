@@ -1,0 +1,12 @@
+node_modules
+.idea
+output
+.DS_Store
+yarn-error.log
+.cache
+net
+js-codemod
+.rpt2_cache
+yarn.lock
+demo/quickapp/build/
+demo/quickapp/dist/

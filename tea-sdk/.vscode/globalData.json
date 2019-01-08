@@ -1,0 +1,15 @@
+{
+    "GameStatusInfo": {
+        "QQVer": "7.8.0.0",
+        "gameId": 4688,
+        "isMaster": 1,
+        "roomId": 0,
+        "gameVersion": "1.0.0",
+        "platform": "android",
+        "src": 220
+    },
+    "failedMethod": [],
+    "appId": 101494197,
+    "appKey": "",
+    "isFromShare": false
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>tea 统计 sdk 测试页面 cdn</title>
+  <script>
+    (function (win, n) {
+      win['TeaAnalyticsObject'] = n;
+      win[n] = win[n] || function () {
+        (win[n].q = win[n].q || []).push(arguments);
+      }
+      win[n].l = +new Date();
+    })(window, 'collectEvent');
+  </script>
+  </script>
+  <!-- 测试 SDK 的 API 及功能 -->
+  <script src="./common_test.js"></script>
+
+  <!-- 测试 CollectorClient 会不会与异步引入的js良好共存。 -->
+  <!-- <script src="./bundle_vendor.js"></script> -->
+</head>
+
+<body>
+  <h1>TEA 统计 sdk 测试页面 cdn</h1>
+  <p>问题：</p>
+  <ol>
+    <li>事件的顺序不对。beforeInit 事件不是第一个发出去的，时间戳也不对。</li>
+    <li>ssid完成后，send调用前的事件没有被merge公共事件属性。</li>
+    <li>send方法可以被调用多次。</li>
+  </ol>
+  <button onclick="location.href = 'http://s6.pstatp.com/package/apk/guagualongkids/GGLKids_xiangqing_ggl_v1.1.0_cfa3fd7.apk?v=1533281259'">下载</button>
+  <button onclick="sendAEvent()">send a event without ls</button>
+  <button onclick="sendPVEvent()">send a predefinedPV</button>
+  <button onclick="refresh()">refresh</button>
+</body>
+
+</html>

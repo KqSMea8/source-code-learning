@@ -1,0 +1,22 @@
+{
+    "presets": [
+        [
+            "env",
+            {
+                "modules": false,
+                "targets": {
+                    "browsers": [
+                        "last 7 versions",
+                        "not ie <= 8",
+                        "ios >= 8",
+                        "android >= 4.0"
+                    ]
+                },
+                "loose": true,
+                "useBuiltIns": true,
+                "debug": false
+            }
+        ],
+        "stage-1"
+    ]
+}

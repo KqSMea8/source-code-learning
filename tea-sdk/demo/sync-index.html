@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>sync SDK </title>
+</head>
+
+<body>
+  <p>import方式引入</p>
+  <code>
+        import Tea from '/es/index.js'
+        window.collectEvent = Tea
+        import '/demo/commonTest.js'
+    </code>
+  <script type="module">
+    // Defer by default
+    // https://jakearchibald.com/2017/es-modules-in-browsers/
+
+    import '/demo/module_one.mjs'
+    import '/demo/module_two.mjs'
+    import '/demo/commonTest.js'
+  </script>
+
+  <p></p>
+  <button onclick="location.href = 'http://s6.pstatp.com/package/apk/guagualongkids/GGLKids_xiangqing_ggl_v1.1.0_cfa3fd7.apk?v=1533281259'">下载</button>
+  <button onclick="sendAEvent()">send a event</button>
+  <button onclick="sendPVEvent()">send a predefinedPV</button>
+</body>
+
+</html>

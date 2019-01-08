@@ -30,6 +30,14 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.ttt$/,
+        use: 'my-loader',
+      },
+      {
+        test: /\.bundle\.js$/,
+        use: 'bundle-loader',
+      },
+      {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
@@ -56,11 +64,11 @@ module.exports = {
       },
     ],
   },
-  // resolveLoader: {
-  //   alias: {
-  //     'babel-loader': path.resolve(__dirname, './my-babel-loader.js'),
-  //   },
-  // },
+  resolveLoader: {
+    alias: {
+      'my-loader': path.resolve(__dirname, './my-loader.js'),
+    },
+  },
   optimization: {
     splitChunks: {
       chunks: 'all',

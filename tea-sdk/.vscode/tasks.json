@@ -1,0 +1,17 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "preAttach",
+            "type": "shell",
+            "command": "node \"/Users/harx/.vscode/extensions/qqdev.qqextension-0.5.6/resource/scripts/pre-attach.js\" \"/Users/harx/.vscode/extensions/qqdev.qqextension-0.5.6/resource\" \"/Users/harx/gitlab/mario_js_collector_v2/demo/qqGame\"",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

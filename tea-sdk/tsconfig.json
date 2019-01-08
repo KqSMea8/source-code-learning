@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "lib": ["esnext"],
+        "allowJs": true,
+        "target": "es5"
+    }
+}

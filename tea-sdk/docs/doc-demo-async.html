@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script>
+      // 1. 加载异步初始化代码
+      (function (win, export_obj) {
+        win['TeaAnalyticsObject'] = export_obj;
+        if (!win[export_obj]) {
+          function _collect() {
+            _collect.q.push(arguments);
+            return _collect;
+          }
+
+          _collect.q = _collect.q || [];
+          win[export_obj] = _collect;
+        }
+        window[export_obj].l = +new Date();
+      })(window, 'collectEvent');
+    </script>
+    <!-- 国内业务: https://s3.pstatp.com/pgc/tech/collect/collect-v.3.1.24.js -->
+    <!-- 国际业务: https://s0.ipstatp.com/static_magic/pgc/tech/collect/collect-v.3.1.24.js -->
+    <script async src="//s3.pstatp.com/pgc/tech/collect/collect-v.3.2.5.js"></script>
+    <script>
+
+        // window.collectEvent.predefinePageView();
+
+        // 2. 初始化SDK，必须。
+        window.collectEvent('init', {
+            app_id: 1338, // 申请的app_id。
+            channel: 'cn',
+            disable_webid:true,
+            log:true,
+        });
+
+
+        // 3. 按需配置
+        window.collectEvent('config', {
+            log: true, // 开启调试日志
+            // disable_ssid: true, // 是否停止使用ssid。
+            // _staging_flag: 1, // 是否发到测试库
+            evtParams: { // 设置公共属性
+                username: 'zhangsan',
+                commonParams: 'daily',
+            },
+        });
+
+
+        // 5. 发送事件。事件会等到Tea.send()调用后，才真正发出。
+        window.collectEvent('enter_page', {
+            'from': 'index',
+        })
+
+        // 3. 按需配置，可多次调用。
+        window.collectEvent('config', {
+            user_unique_id: 'zhangsan001'
+        });
+        // 4. 配置完毕
+        window.collectEvent('send');
+
+
+        // window.collectEvent('feedback.init',{})
+        // window.collectEvent('feedback.config',{})
+        // window.collectEvent('feedback.event.config',{})
+        // window.collectEvent('feedback.send')
+        // window.collectEvent('feedback.enter_page',{})
+    </script>
+
+</head>
+
+<body>
+</body>
+
+</html>

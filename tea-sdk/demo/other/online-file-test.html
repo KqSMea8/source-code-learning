@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://s3.pstatp.com/pgc/tech/collect/collect-v.3.1.33.js" async></script>
+    <script>
+        (function(window, document, export_obj) {
+            const win = window;
+            win['TeaAnalyticsObject'] = export_obj;
+            if (!win[export_obj]) {
+                function _collect() {
+                    _collect.q.push(arguments);
+                    return _collect;
+                }
+
+                _collect.q = _collect.q || [];
+                win[export_obj] = _collect;
+            }
+            window[export_obj].l = +new Date();
+        })(window, document, 'collectEvent');
+    </script>
+    <script src="/demo/commonTest.js"></script>
+
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+    "appId": "101494197",
+    "appKey": "",
+    "gameId": "4688",
+    "gameSrc": "220",
+    "isStable": "true",
+    "qqVersion": "7.8.0.0",
+    "runEnv": "Node.js",
+    "syntaxVersion": "old",
+    "version": 11.1,
+    "gameDir": "/Users/harx/gitlab/mario_js_collector_v2/demo/qqGame"
+}

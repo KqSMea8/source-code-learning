@@ -1,0 +1,6 @@
+{
+    "extends": "@dp/eslint-config-dp",
+    "parserOptions": {
+        "sourceType": "module"
+    }
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://s0.ipstatp.com/static_magic/pgc/tech/collect/collect-v.3.1.4.js"></script>
+    <script>
+        (function(window, document, export_obj) {
+            const win = window;
+            win['TeaAnalyticsObject'] = export_obj;
+            if (!win[export_obj]) {
+                function _collect() {
+                    _collect.q.push(arguments);
+                    return _collect;
+                }
+
+                _collect.q = _collect.q || [];
+                win[export_obj] = _collect;
+            }
+            window[export_obj].l = +new Date();
+        })(window, document, 'collectEvent');
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+        });
+        //初始化业务配置
+        window.collectEvent('init', {
+            app_id: 1231,
+            channel: 'cn'
+        });
+        window.collectEvent('config', {
+            log: true
+        });
+        // window.collectEvent('a', {app: 1});
+
+        for (let i = 0; i < 600; i++) {
+            window.collectEvent(`evt-${Math.random()}`, {'rdm': i});
+        }
+        window.collectEvent('config', {
+            user_unique_id: 15
+        });
+        window.collectEvent('send');
+    </script>
+</head>
+<body>
+
+</body>
+</html>
